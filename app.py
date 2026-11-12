@@ -37,7 +37,9 @@ def sheet_error():
         gc.open(secret("SHEET_NAME", "HVAC Leads")).sheet1
         return "no error found"
     except Exception as e:
-        return f"{type(e).__name__}: {e}"def llm_generate(prompt, task, service, season):
+        return f"{type(e).__name__}: {e}"
+        
+def llm_generate(prompt, task, service, season):
     provider = secret("LLM_PROVIDER", "gemini")
     key = secret("GEMINI_API_KEY") if provider == "gemini" else secret("GROQ_API_KEY")
     model = secret("GEMINI_MODEL", "gemini-2.5-flash") if provider == "gemini" else secret("GROQ_MODEL", "llama-3.3-70b-versatile")
