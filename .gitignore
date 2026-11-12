@@ -3,3 +3,4 @@ __pycache__/
 .pytest_cache/
 leads.csv
 .streamlit/secrets.toml
+*.json

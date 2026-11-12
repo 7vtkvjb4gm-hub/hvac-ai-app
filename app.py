@@ -30,7 +30,14 @@ def get_sheet():
     except Exception:
         return None
 
-def llm_generate(prompt, task, service, season):
+def sheet_error():
+    try:
+        import gspread
+        gc = gspread.service_account_from_dict(dict(st.secrets["gcp_service_account"]))
+        gc.open(secret("SHEET_NAME", "HVAC Leads")).sheet1
+        return "no error found"
+    except Exception as e:
+        return f"{type(e).__name__}: {e}"def llm_generate(prompt, task, service, season):
     provider = secret("LLM_PROVIDER", "gemini")
     key = secret("GEMINI_API_KEY") if provider == "gemini" else secret("GROQ_API_KEY")
     model = secret("GEMINI_MODEL", "gemini-2.5-flash") if provider == "gemini" else secret("GROQ_MODEL", "llama-3.3-70b-versatile")
@@ -173,6 +180,6 @@ elif page == "Leads (Admin)":
     if leads:
         df = pd.DataFrame(leads); st.dataframe(df, hide_index=True, use_container_width=True)
         st.download_button("Download CSV", df.to_csv(index=False), "leads.csv")
-        st.caption("Stored in Google Sheets." if get_sheet() else "Stored in local leads.csv (resets on Streamlit Cloud restarts). Connect Google Sheets to keep leads.")
+        st.caption("Stored in Google Sheets." if get_sheet() else "Stored in local leads.csv. Sheet problem: " + sheet_error())
     else:
         st.info("No leads yet. Submit one from Request Service.")
