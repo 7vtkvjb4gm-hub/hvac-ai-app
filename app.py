@@ -87,6 +87,7 @@ def lead_form(source, service_default=None, notes_default=""):
 # ---------- Pages ----------
 if page == "Home":
     st.markdown(f"<div class='hero'><h1>{COMPANY}</h1><p>Find out where an AI toolkit can win you more jobs, then put it to work.</p></div>", unsafe_allow_html=True)
+    st.button("Request service or a free quote", on_click=go, args=("Request Service",), type="primary", use_container_width=True)
     c1, c2, c3 = st.columns(3)
     c1.subheader("Assess"); c1.write("Six questions show where your shop loses leads and time.")
     c1.button("Take the assessment", on_click=go, args=("Business Assessment",))
